@@ -1,0 +1,59 @@
+services:
+  shard1:
+    image: postgres:latest
+    container_name: shard1
+    volumes:
+      - shard1:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - db-net
+    env_file:
+      - .env
+
+  shard2:
+    image: postgres:latest
+    container_name: shard2
+    volumes:
+      - shard2:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - db-net
+    env_file:
+      - .env
+
+  shard3:
+    image: postgres:latest
+    container_name: shard3
+    volumes:
+      - shard3:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - db-net
+    env_file:
+      - .env
+
+  web-server:
+    build: .
+    container_name: web-server
+    networks:
+      - db-net
+    ports:
+      - 8080:8080
+    depends_on:
+      - shard1
+      - shard2
+      - shard3
+    env_file:
+      - .env
+
+networks:
+  db-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "10.0.0.0/24"
+
+volumes:
+  shard1:
+  shard2:
+  shard3:
