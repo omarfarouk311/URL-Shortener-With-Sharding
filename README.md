@@ -45,5 +45,5 @@ It has a web server providing an API with two main endpoints:
 ## Usage
   - Create `.env` file with `POSTGRES_PASSWORD=your password` entry in the project folder.
   - To shorten a URL, make a POST request to `http://localhost:8080/` with the url field in the request body.
-  - To retrieve an original URL, make a GET request to `http://localhost:8080/:urlId` with the shortened_url as a path variable.
+  - To retrieve an original URL, make a GET request to `http://localhost:8080/:shortened_url` with the shortened_url as a path variable.
   - You can use a tool like Postman to send the request.
